@@ -1,5 +1,6 @@
 # Etapa 1: dependencias (builder)
-FROM node:20-alpine AS deps
+# Setamos como alias a deps y al runner 
+FROM node:20-alpine AS deps       
 WORKDIR /app
 # 1) Copiamos solo los manifests para aprovechar la cache de Docker
 COPY package*.json ./
@@ -7,7 +8,10 @@ COPY package*.json ./
 RUN npm ci
 # 3) Copiamos el resto del código
 COPY . .
+# Copia todo lo que hay en el directorio/repo en /app
 
+
+#Utilizamos multi-stage para optimizar la imagen
 # Etapa 2: runtime mínimo
 FROM node:20-alpine AS runner
 WORKDIR /app
