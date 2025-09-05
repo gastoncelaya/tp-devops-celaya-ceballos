@@ -1,4 +1,4 @@
-const request = require('supertest');
+const request = require('supertest'); // require funcion para importar modulos 
 const app = require('../src/app');
 
 describe('API básica', () => {

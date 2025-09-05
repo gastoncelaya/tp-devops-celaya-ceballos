@@ -3,6 +3,7 @@ FROM node:20-alpine AS deps
 WORKDIR /app
 # 1) solo los manifests para aprovechar la cache de Docker
 COPY package*.json ./
+
 # 2) dependencias exactas 
 RUN npm install
 
