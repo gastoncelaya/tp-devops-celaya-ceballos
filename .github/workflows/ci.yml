@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    name: Test (Node 20)
+    name: Lint, Build y Test (Node 20)
     runs-on: ubuntu-latest
 
     steps:
@@ -23,6 +23,12 @@ jobs:
 
       - name: Install deps (npm ci)
         run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Build (placeholder for JS)
+        run: npm run build
 
       - name: Run tests
         run: npm test
