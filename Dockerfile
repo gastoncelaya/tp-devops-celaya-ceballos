@@ -11,6 +11,7 @@ RUN npm install
 FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
+ENV NEW_RELIC_APP_NAME="tp-devops-app"
 ENV NEW_RELIC_NO_CONFIG_FILE=true
 ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
 ENV NEW_RELIC_LOG=stdout
@@ -19,4 +20,4 @@ COPY --from=deps /app/package*.json ./
 COPY --from=deps /app/node_modules ./node_modules
 COPY ./src ./src
 EXPOSE 3000
-CMD ["node", "src/index.js"]
+CMD ["node", "-r", "newrelic", "src/index.js"]
