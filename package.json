@@ -15,7 +15,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "newrelic": "^13.3.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",
