@@ -13,4 +13,29 @@ describe('API básica', () => {
     expect(res.statusCode).toBe(201);
     expect(res.body).toHaveProperty('id');
   });
+
+  it('PUT /items/:id actualiza un item existente', async () => {
+    // Primero creamos un item
+    const createRes = await request(app).post('/items').send({ name: 'viejo' });
+    const id = createRes.body.id;
+
+    // Ahora lo actualizamos
+    const updateRes = await request(app).put(`/items/${id}`).send({ name: 'nuevo' });
+    expect(updateRes.statusCode).toBe(200);
+    expect(updateRes.body.name).toBe('nuevo');
+  });
+
+  it('DELETE /items/:id elimina un item existente', async () => {
+    // Creamos un item
+    const createRes = await request(app).post('/items').send({ name: 'para borrar' });
+    const id = createRes.body.id;
+
+    // Lo borramos
+    const deleteRes = await request(app).delete(`/items/${id}`);
+    expect(deleteRes.statusCode).toBe(204);
+
+    // Verificamos que ya no está
+    const listRes = await request(app).get('/items');
+    expect(listRes.body.find(i => i.id === id)).toBeUndefined();
+  });
 });
