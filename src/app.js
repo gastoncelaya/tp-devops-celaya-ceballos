@@ -3,7 +3,7 @@ const app = express(); // app es el servidor express, es nuestro objeto y tiene 
 app.use(express.json()); // express.json() permite que Express lea datos en formato JSON enviados en el cuerpo de una solicitud POST o PUT.
 
 // Health check
-app.get('/health', (_req, res) => res.json({ status: 'ok', version: '1.1.1' })); //metodo que ejecuta una solicitud get y devuelve ok
+app.get('/health', (_req, res) => res.json({ status: 'ok', version: '1.1.2' })); //metodo que ejecuta una solicitud get y devuelve ok
 
 // CRUD simple en memoria
 let items = []; // creamos un array para cargarlo con las solicitudes
