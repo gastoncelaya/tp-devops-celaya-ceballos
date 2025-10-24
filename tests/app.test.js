@@ -5,7 +5,7 @@ describe('API básica', () => {
   it('GET /health devuelve {status:"ok"}', async () => {
     const res = await request(app).get('/health');
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({ status: 'ok', version: '1.1.2' });
+    expect(res.body).toEqual({ status: 'ok', version: '1.1.3' });
   });
 
   it('POST /items crea un item', async () => {
