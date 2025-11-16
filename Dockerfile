@@ -2,6 +2,10 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 
+# Soluciona error de módulos no cargados, visible previamente en Render.
+# Lo que hace es instalar las herramientas que necesita New Relic para compilar.
+RUN apk add --no-cache python3 make g++
+
 COPY package*.json ./
 
 # CORRECCIÓN: TAMAÑO
