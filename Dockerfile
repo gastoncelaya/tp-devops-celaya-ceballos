@@ -1,6 +1,7 @@
 # dependencias (builder)
 FROM node:20-alpine AS deps
 WORKDIR /app
+RUN apk add --no-cache python3 make g++
 # 1) solo los manifests para aprovechar la cache de Docker
 COPY package*.json ./
 
