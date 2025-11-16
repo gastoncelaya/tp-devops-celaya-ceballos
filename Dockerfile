@@ -1,21 +1,29 @@
-# dependencias (builder)
+# 1. ETAPA DE BUILD (Builder)
 FROM node:20-alpine AS deps
 WORKDIR /app
-RUN apk add --no-cache python3 make g++
-# 1) solo los manifests para aprovechar la cache de Docker
+
 COPY package*.json ./
 
-# 2) dependencias exactas 
-RUN npm install
+# CORRECCIÓN: TAMAÑO
+# Cambiamos el anterior npm install por npm ci --omit=dev para NO instalar 'devDependencies' (como jest, eslint, etc.).
+# Esto hace que la carpeta 'node_modules' sea mucho más pequeña.
+RUN npm ci --omit=dev
 
-# runtime mínimo
+
+# 2. ETAPA FINAL (Runner)
 FROM node:20-alpine AS runner
 WORKDIR /app
-ENV NODE_ENV=production
+ENV NODE_ENV=production 
 
-# copia solo lo necesario desde deps
-COPY --from=deps /app/package*.json ./
-COPY --from=deps /app/node_modules ./node_modules
-COPY ./src ./src
-EXPOSE 3000
-CMD ["node", "-r", "newrelic", "src/index.js"]
+# CORRECIÓN: SEGURIDAD
+# Copiamos los archivos necesarios dándole propiedad al usuario 'node'.
+# Este usuario ya viene creado en la imagen 'node:alpine' y no tiene permisos de root, reduciendo superficie de ataque.
+COPY --from=deps --chown=node:node /app/package*.json ./
+COPY --from=deps --chown=node:node /app/node_modules ./node_modules
+COPY --chown=node:node ./src ./src 
+
+# Le decimos al contenedor que corra el resto de los comandos como 'node'
+USER node
+
+EXPOSE 3000 
+CMD ["node", "src/index.js"] 
