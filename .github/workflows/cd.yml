@@ -14,4 +14,4 @@ jobs:
     steps:
       - 
         run: |
-          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}&imageUrl=docker.io/${{ secrets.DOCKER_USERNAME }}/tp-devops-app:${{ github.sha }}
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}&imageUrl=docker.io/${{ secrets.DOCKER_USERNAME }}/tp-devops-app:${{ github.sha }}"
