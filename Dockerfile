@@ -1,6 +1,9 @@
 # 1. ETAPA DE BUILD (Builder)
 FROM node:20-alpine AS deps
 WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm prune --production
 
 # Soluciona error de módulos no cargados, visible previamente en Render.
 # Lo que hace es instalar las herramientas que necesita New Relic para compilar.
