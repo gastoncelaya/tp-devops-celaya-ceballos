@@ -12,18 +12,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm prune --production
 
-# Soluciona error de módulos no cargados, visible previamente en Render.
-# Lo que hace es instalar las herramientas que necesita New Relic para compilar.
-RUN apk add --no-cache python3 make g++
-
-COPY package*.json ./
-
-# CORRECCIÓN: TAMAÑO
-# Cambiamos el anterior npm install por npm ci --omit=dev para NO instalar 'devDependencies' (como jest, eslint, etc.).
-# Esto hace que la carpeta 'node_modules' sea mucho más pequeña.
-RUN npm ci --omit=dev
-
-
 # 2. ETAPA FINAL (Runner)
 FROM node:20-alpine AS runner
 WORKDIR /app
